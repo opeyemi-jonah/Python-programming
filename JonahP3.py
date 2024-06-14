@@ -88,22 +88,17 @@ def count_fruits_in_sentence(sentence, fruits):
 
 def replace_fruit_with_brussel_sprouts(sentence, fruits):
     sentence_lower = sentence.lower()
-    
-    for fruit in fruits:
-        fruit_lower = fruit.lower()
-        if fruit_lower in sentence_lower:
-            # Find the first occurrence and replace it
-            sentence = sentence.replace(fruit, "Brussel Sprouts", 1)
-            break
-    
-    return sentence
+    fruitsInSentence = list(set(fruits)&set(sentence))
+    # Find and replace first fruit in sentence with brussel sprouts
+    new_sentence = sentence_lower.replace(fruitsInSentence[0], "brussel sprouts")
+    return new_sentence
 
 # Instructional prompt to guide user's input
 some_fruit = formatFruitList(seven_fruits)
 print("Please enter a sentence with a fruit in it: ",some_fruit)
 
 # Ask the user for a sentence
-user_input_sentence = input("Enter sentence: ").lower()   
+user_input_sentence = input("Enter sentence: ")
 
 count_fruits_in_sentence(user_input_sentence, seven_fruits)
 
@@ -114,6 +109,15 @@ print(f"There are {fruit_count} fruits in the sentence.")
 # Display a list of fruits in the sentence
 print("Fruits in the sentence:", list(fruit_list))
 
-# Replace one instance of a fruit with "Brussel Sprouts"
-new_sentence = replace_fruit_with_brussel_sprouts(user_input_sentence, fruit_list)
-print("New sentence:", new_sentence)
+# Split the sentence into words
+words = user_input_sentence.split()
+
+# Find fruits from seven_fruits in the user's input sentence
+fruits_in_sentence = list(set(seven_fruits) & set(words))
+print("Fruits from the seven selected fruits found in the sentence:", fruits_in_sentence)
+
+# Finds and replaces one instance of a fruit in the sentence with “Brussel Sprouts”.
+sentenceWithBrusselSprouts = user_input_sentence.replace(fruits_in_sentence[0],"brussel sprouts")
+
+# Displays the new sentence to the user.
+print("Your sentence with brussel sprouts:",sentenceWithBrusselSprouts)
