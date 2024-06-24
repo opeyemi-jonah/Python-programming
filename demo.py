@@ -1,77 +1,66 @@
-# JonahP3
-# Programmer: Opeyemi Gabriel Jonah
-# Email: ojonah@cnm.edu
-# Purpose: provides user capability to find fruit in a string
-import random
+import math
 
-# Broad list of fruits
-fruits = [
-'Apricot',
-'Asian Pear',
-'Avocado',
-'Banana',
-'Blackberries',
-'Blueberries',
-'Boysenberries',
-'Cactus Pear',
-'Cantaloupe',
-'Cherries',
-'Coconut',
-'Cranberries',
-'Figs',
-'Gooseberries',
-'Grapefruit',
-'Grapes',
-'Honeydew Melon',
-'Kiwifruit',
-'Limes',
-'Longan',
-'Loquat',
-'Lychee',
-'Madarins',
-'Malanga',
-'Mandarin Oranges',
-'Mangos',
-'Mulberries',
-'Nectarines',
-'Oranges',
-'Papayas',
-'Passion Fruit',
-'Peaches',
-'Pears',
-'Persimmons',
-'Pineapple',
-'Plums',
-'Pomegranate',
-'Prunes',
-'Quince',
-'Raisins',
-'Raspberries',
-'Rhubarb',
-'Strawberries',
-'Tangelo',
-'Tangerines',
-'Tomato',
-'Ugli Fruit',
-'Watermelon'
-]
+class GeoPoint:
+    def __init__(self):
+        self.lat = 0.0
+        self.lon = 0.0
+        self.description = ""
 
-# Create a sequence that has the names of seven random fruits
-seven_fruits = random.sample(fruits, 7)
-print("Seven random fruits selected:", seven_fruits)
+    def SetPoint(self, lat, lon):
+        self.lat = lat
+        self.lon = lon
 
-# Ask the user for a sentence
-user_input_sentence = input("Enter a sentence: ")
+    def GetPoint(self):
+        return (self.lat, self.lon)
 
-# Split the sentence into words
-words = user_input_sentence.split()
+    def Distance(self, lat, lon):
+        # Using the Haversine formula to calculate the distance between two points on the Earth
+        R = 6371  # Radius of the Earth in kilometers
+        lat1, lon1 = self.lat, self.lon
+        lat2, lon2 = lat, lon
 
-# Find fruits from seven_fruits in the user's input sentence
-fruits_in_sentence = list(set(seven_fruits) & set(words))
-print("Fruits from the seven selected fruits found in the sentence:", fruits_in_sentence)
+        dlat = math.radians(lat2 - lat1)
+        dlon = math.radians(lon2 - lon1)
+        a = math.sin(dlat / 2) ** 2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2) ** 2
+        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
 
-# Finds and replaces one instance of a fruit in the sentence with “Brussel Sprouts”.
-sentenceWithBrusselSprouts = user_input_sentence.replace(fruits_in_sentence[0],"brussel sprouts")
+        distance = R * c
+        return distance
 
-# Displays the new sentence to the user.
-print("Your sentence with brussel sprouts:",sentenceWithBrusselSprouts)
+    def SetDescription(self, description):
+        self.description = description
+
+    def GetDescription(self):
+        return self.description
+
+def main():
+    point1 = GeoPoint()
+    point2 = GeoPoint()
+
+    # Setting points and descriptions for point1 and point2
+    point1.SetPoint(34.052235, -118.243683)  # Example coordinates (Los Angeles, CA)
+    point1.SetDescription("Los Angeles")
+
+    point2.SetPoint(40.712776, -74.005974)  # Example coordinates (New York, NY)
+    point2.SetDescription("New York")
+
+    while True:
+        user_input = input("Enter your coordinates (latitude, longitude): ")
+        lat, lon = map(float, user_input.split(','))
+
+        distanceToOne = point1.Distance(lat, lon)
+        distanceToTwo = point2.Distance(lat, lon)
+
+        if distanceToOne < distanceToTwo:
+            closest_point = point1
+        else:
+            closest_point = point2
+
+        print(f"You are closest to {closest_point.GetDescription()} which is located at {closest_point.GetPoint()}")
+
+        another = input("Do another (y/n)? ")
+        if another.lower() != 'y':
+            break
+
+if __name__ == "__main__":
+    main()
