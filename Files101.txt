@@ -1,0 +1,19 @@
+Files in Python Tutorial
+
+Operations-
+1. Opening Files
+2. Writing to a File
+3. Reading from a File
+4. Closing Files
+5. Iterating Over a File
+
+Open a file: 
+    open(file_name, mode, buffering)
+mode & buffering are optional.
+
+Mode values: 
+'r' = read mode, 
+'w' = write mode, 
+'a' = append mode, 
+'b' = binary mode (added to other mode), 
+'+' = read/write mode (added to other mode).
