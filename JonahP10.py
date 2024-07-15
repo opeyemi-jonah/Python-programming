@@ -39,17 +39,22 @@ class GeoPoint:
 
 # Main
 def main():
-    # Instantiate two points 
-    point_one = GeoPoint()
-    point_two = GeoPoint()
-
-    # Setting points and descriptions for poin_one and point_two
-    point_one.SetPoint(34.052235, -118.243683)  # Example coordinates (Los Angeles, CA)
-    point_one.SetDescription("Los Angeles")
-
-    point_two.SetPoint(40.712776, -74.005974)  # Example coordinates (New York, NY)
-    point_two.SetDescription("New York")
-
+    # Instantiate points 
+    pointList = []
+    locationList = open('locations.txt')
+    for line in locationList.readlines():
+        if line!= '\n':
+            lat, lon, description = line.split(',')
+            lat = float(lat.strip())
+            lon = float(lon.strip())
+            description = description.strip()
+            point = GeoPoint()
+            # Setting points and descriptions for each point
+            point.SetPoint(lat, lon)
+            point.SetDescription(description)
+            pointList.append(point)
+    
+    # Getting the closest point
     DoAnother ='y'
 
     while DoAnother == 'y':
@@ -59,24 +64,33 @@ def main():
             lat = float(lat.strip())
             lon = float(lon.strip())
             description = description.strip()
-            distanceToOne = point_one.Distance(lat, lon)
-            distanceToTwo = point_two.Distance(lat, lon)
-
-            if distanceToOne < distanceToTwo:
-                closest_point = point_one
+            
+            closest_point = None
+            min_distance = float('inf')
+            
+            for point in pointList:
+                distance = point.Distance(lat, lon)
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_point = point
+            
+            if closest_point:
+                print(f"You are closest to {closest_point.GetDescription()} which is located at {closest_point.GetPoint()}")
             else:
-                closest_point = point_two
-            print(f"You are closest to {closest_point.GetDescription()} which is located at {closest_point.GetPoint()}")
+                print("No points available to compare.")
 
         except TypeError:
             print("Please ensure your geo points are type float")
         except ValueError:
             print("Something went wrong! Check your input and try again...")
+        except FileNotFoundError:
+            print(f"File not found! Please ensure you have a file named 'locations.txt' in the same directory as this program")
         except Exception as e:
             print(f'Something went wrong: {e}')
 
         DoAnother = input("Do another (y/n)? ")
-
+    
+    locationList.close()
 
 if __name__ == "__main__":
     main()
