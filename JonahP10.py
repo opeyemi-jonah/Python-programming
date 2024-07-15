@@ -1,7 +1,7 @@
 # JonahP10
 # Programmer: Opeyemi Gabriel Jonah
 # Email: ojonah@cnm.edu
-# Purpose: demonstrate how to define a class and catch exceptions
+# Purpose: demonstrate how to define a class, catch exceptions and read files
 
 import math
 
