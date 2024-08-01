@@ -5,7 +5,6 @@
 
 import math
 
-
 class GeoPoint:
     def __init__(self):
         self.lat = 0.00

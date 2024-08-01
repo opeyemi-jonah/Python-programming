@@ -2,22 +2,22 @@ import math
 
 
 class GeoPoint:
-    def __init__(self, lat=0, lon=0, description='TBD'):
-        self.__lat = lat
-        self.__lon = lon
-        self.__description = description
+    def __init__(self):
+        self.lat = 0.00
+        self.lon = 0.00
+        self.description = ""
 
-    def SetPoint(self, point):
-        self.__lat, self.__lon = point
+    def SetPoint(self, lat, lon):
+        self.lat = lat
+        self.lon = lon
 
     def GetPoint(self):
-        return (self.__lat, self.__lon)
+        return (self.lat, self.lon)
 
-    def Distance(self, toPoint):
-        # Using the Haversine formula to calculate the distance between two points on the Earth
+    def Distance(self, lat, lon):
         R = 6371  # Radius of the Earth in kilometers
-        lat1, lon1 = self.__lat, self.__lon
-        lat2, lon2 = toPoint.GetPoint()
+        lat1, lon1 = self.lat, self.lon
+        lat2, lon2 = lat, lon
 
         dlat = math.radians(lat2 - lat1)
         dlon = math.radians(lon2 - lon1)
@@ -26,11 +26,9 @@ class GeoPoint:
 
         distance = R * c
         return distance
-    
-    def SetDescription(self,description):
-        self.__description = description
+
+    def SetDescription(self, description):
+        self.description = description
+
     def GetDescription(self):
-        return self.__description
-    
-    Point = property(GetPoint,SetPoint)
-    Description = property(GetDescription, SetDescription)
+        return self.description

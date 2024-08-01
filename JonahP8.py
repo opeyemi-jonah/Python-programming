@@ -7,10 +7,10 @@ import math
 
 
 class GeoPoint:
-    def __init__(self):
-        self.lat = 0.00
-        self.lon = 0.00
-        self.description = ""
+    # def __init__(self):
+    #     self.lat = 0.00
+    #     self.lon = 0.00
+    #     self.description = ""
 
     def SetPoint(self, lat, lon):
         self.lat = lat
